@@ -1,12 +1,24 @@
-import {API_URL} from './@constants/api';
+import { Grid, makeStyles, Theme } from '@material-ui/core';
+import React from 'react';
+import CustomTable from './components/CustomTable';
+
+const useStyle = makeStyles<Theme>((theme: Theme) => ({
+  root: {
+    display: 'flex',
+    justifyContent: 'center'
+  }
+}));
 
 const App: React.FC = () => {
-
-  console.log(API_URL)
+  const classes = useStyle();
 
   return (
     <div className="App">
-      <h3>Welcome to Hacker News</h3>
+      <Grid container>
+        <Grid item xs={12} className={classes.root}>
+          <CustomTable />
+        </Grid>
+      </Grid>
     </div>
   );
 }
