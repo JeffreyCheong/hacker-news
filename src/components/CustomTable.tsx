@@ -11,6 +11,7 @@ const useStyles = makeStyles<Theme>((theme: Theme) => ({
     root: {
         minWidth: 796,
         background: '#f6f6ef',
+        borderBottom: '3px solid #ff6600'
     },
     tableHeader: {
         background: '#ff6600',
@@ -23,6 +24,13 @@ const useStyles = makeStyles<Theme>((theme: Theme) => ({
     },
     url: {
         textDecoration: 'none'
+    },
+    end:{
+        padding: '5px 0'
+    },
+    more: {
+        textDecoration: 'none',
+        color:'#000000',
     }
 }))
 
@@ -33,7 +41,7 @@ const paginate = (array: Array<number>, page_size: number, page_number: number):
 
 const CustomTable: React.FC = () => {
     const classes = useStyles();
-    const [storyUrl, setStoryUrl] = useState<String>('topstories');
+    const [storyUrl, setStoryUrl] = useState<string>('topstories');
     const [{ data, loading, error }, refetch] = useAxios(
         `${API_URL}/${storyUrl}.json?print=pretty`
     );
@@ -52,6 +60,7 @@ const CustomTable: React.FC = () => {
     useEffect(() => {
         if (data) {
             setNewStory(paginate(data, DEFAULT_PAGE_SIZE, page))
+            console.log(data)
         }
     }, [data, page])
     
@@ -77,13 +86,14 @@ const CustomTable: React.FC = () => {
             <tbody>
                 { 
                     newStory.map((i, key) => {
-                        return <TableData key={key} i={i} index={key + 1} />
+                        return <TableData type={storyUrl} key={key} i={i} index={key + 1} />
                     })  
                 }
             </tbody>
             <tfoot>
-                <tr><td><a  href="#" onClick={handlePage}>more</a></td></tr>
+                <tr><td className={classes.end}><a  href="#" onClick={handlePage} className={classes.more}>More</a></td></tr>
             </tfoot>
+            
         </table>
 
     )

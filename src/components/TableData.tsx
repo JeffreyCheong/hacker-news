@@ -21,6 +21,7 @@ interface DetailsProp {
 interface TableDataProp {
     i: number;
     index: number;
+    type: string;
 }
 
 const useStyles = makeStyles<Theme>((theme: Theme) => ({
@@ -105,7 +106,16 @@ const TableData: React.FC<TableDataProp> = (props: TableDataProp) => {
                                 <span>{details.score} points by </span>
                                 <span>{details.by} </span>
                                 <span>{details.time == 0 ? details.time : moment.unix(details.time).fromNow(true)} | </span>
-                                <span> <a href='#' className={classes.url}>hide</a> | <a href='#' className={classes.url}>past</a> | <a href='#' className={classes.url}>discuss</a> </span>
+                                <span> 
+                                    <a href='#' className={classes.url}>hide</a> |  
+                                    <a href='#' className={classes.url}>{props.type === 'topstories'? '': ' past |'}</a>  
+                                    <a href='#' className={classes.url}>{
+                                    details.hasOwnProperty('kids') ? 
+                                    details.kids.length < 1 ? ' discuss':
+                                    ' ' + details.kids.length.toString() + ' comments': 
+                                    ' discuss'}
+                                    </a> 
+                                </span>
                             </div>
                         </td>
 
